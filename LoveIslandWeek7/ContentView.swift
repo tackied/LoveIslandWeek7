@@ -2,23 +2,91 @@
 //  ContentView.swift
 //  LoveIslandWeek7
 //
-//  Created by Felix Otto on 5/1/25.
+//  Created by Daniel Tackie on 5/1/25.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isAnimating = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, class!")
+        ZStack {
+            Image("IMG_1570")
+            //Image("Love Genie0")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Spacer().frame(height: 12)
+                Text("Love Genie")
+                    .font(.system(size: 60, weight: .bold, design: .serif))
+                    .foregroundColor(.white)
+                    .shadow(radius: 5)
+                
+                Spacer()
+                
+
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(AngularGradient(colors: [.teal, .orange, .teal], center: .center, angle: .degrees(isAnimating ? 360 : 0)))
+                    .frame(width: 260, height: 60)
+                    .blur(radius: 6)
+                
+                
+                
+                
+                Button(action:{
+                    
+                    
+                }) {
+                    
+                    Text("ASK THE GENIE")
+                        .bold()
+                        .font(.title3)
+                        .fontDesign(.serif)
+                        .foregroundStyle(.orange)
+                        .frame(width: 260, height: 60)
+                        .background(Color.white, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(.gray.opacity(0.5), lineWidth: 1)
+                        }
+                }
+            }
+            .onAppear {
+                withAnimation(Animation.linear(duration: 7).repeatForever(autoreverses: false)) {
+                    isAnimating = true
+                }
+                
+            }
+                Spacer().frame(height:150)
+            
         }
-        .padding()
+        
+        
+        
+        
     }
+    
+}
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
+    
+//    #Preview {
+//        ContentView()
+
+// Get User's name
+// Get crushes name
+// Progress bar pops up and loads to 100% with animation
+// While progress bar loads small message come under progress bar such as "User & Crush sitting in a tree.." and "Crush loves me.. Crush loves me not.
+// randomly generated number stating the user and crushes compatibilty
+
