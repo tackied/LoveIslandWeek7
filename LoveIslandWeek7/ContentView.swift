@@ -10,8 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var isAnimating = false
-    @State  var txtValue: String = ""
-    @State  var txtValue2: String = ""
+    @State private var txtValue: String = ""
+    @State private var txtValue2: String = ""
+    @State private var angle: Double = 0
+    @State private var fillAmount: CGFloat = 0
+    @State private var percentage: Int = 0
+    @State private var progressBar = false
+    
     
     
     var body: some View {
@@ -33,81 +38,144 @@ struct ContentView: View {
                     .foregroundColor(.white)
                 Spacer()
                 
-              
-            //User inputs for names
-                TextField("What's your name?", text: $txtValue)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                    .frame(maxWidth: 350)
-                
-                TextField("What's the name of your crush?", text: $txtValue2)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                    .frame(maxWidth: 350)
-            
-                
-
-                
-                Spacer().frame(height:120)
-                
-
-                
-                
-                
-
-            // Submit button
-            ZStack {
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(AngularGradient(colors: [.teal, .orange, .teal], center: .center, angle: .degrees(isAnimating ? 360 : 0)))
-                    .frame(width: 260, height: 60)
-                    .blur(radius: 6)
-                
-                
-                
-                
-                Button(action:{
-                 //   let name = self.txtValue
-                   // let crush = self.txtValue2
+                if !progressBar {
                     
                     
                     
-                }) {
+                    //User inputs for names
+                    TextField("What's your name?", text: $txtValue)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .frame(maxWidth: 350)
                     
-                    Text("ASK THE GENIE")
-                        .bold()
-                        .font(.title3)
-                        .fontDesign(.serif)
-                        .foregroundStyle(.orange)
-                        .frame(width: 260, height: 60)
-                        .background(Color.white, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .stroke(.gray.opacity(0.5), lineWidth: 1)
+                    TextField("What's the name of your crush?", text: $txtValue2)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .frame(maxWidth: 350)
+                    
+                    
+                    Spacer().frame(height:120)
+                    
+                    
+                    
+                    // Submit button
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(AngularGradient(colors: [.teal, .orange, .teal], center: .center, angle: .degrees(isAnimating ? 360 : 0)))
+                            .frame(width: 260, height: 60)
+                            .blur(radius: 6)
+                        
+                        
+                        
+                        
+                        Button(action:{
+                            progressBar = true
+                            withAnimation(.easeOut(duration: 10)) {
+                                fillAmount = 1
+                                angle += 360
+                            }
+                            Timer.scheduledTimer(withTimeInterval: 0.085, repeats: true) {timer in
+                                if percentage < 100 {
+                                    percentage += 1
+                                } else {
+                                    timer.invalidate()
+                                }
+                            }
+                            
+                            //   let name = self.txtValue
+                            // let crush = self.txtValue2
+                            
+                            
+                            
+                        }) {
+                            
+                            Text("ASK THE GENIE")
+                                .bold()
+                                .font(.title3)
+                                .fontDesign(.serif)
+                                .foregroundStyle(.orange)
+                                .frame(width: 260, height: 60)
+                                .background(Color.white, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                        .stroke(.gray.opacity(0.5), lineWidth: 1)
+                                }
                         }
-                }
-            }
-            .onAppear {
-                withAnimation(Animation.linear(duration: 7).repeatForever(autoreverses: false)) {
-                    isAnimating = true
+                    }
+                    .onAppear {
+                        withAnimation(Animation.linear(duration: 7).repeatForever(autoreverses: false)) {
+                            isAnimating = true
+                        }
+                        
+                    }
+                    
+                    
+                    
+                    
+                } else {
+                    VStack {
+                        Spacer().frame(height: 100)
+                    ZStack {
+                        Circle()
+                            .stroke(lineWidth: 15)
+                            .frame(width: 150, height: 150)
+                            .foregroundColor(.gray.opacity(0.3))
+                        Circle()
+                            .trim(from: 0, to: fillAmount)
+                            .stroke(style: StrokeStyle(lineWidth: 18, lineCap: .round, lineJoin: .round))
+                            .frame(width: 150, height: 150)
+                            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom))
+                            .rotationEffect(.degrees( -90))
+                    
+                            Text("\(percentage)\(Text("%").font(.title3))").font(.largeTitle).monospacedDigit()
+                                .bold()
+                                .foregroundColor(.white)
+                        
+                            
+                        }
+                        HStack {
+                            Spacer().frame(height:300)
+                            Text("K-I-S-S-I-N-G")
+                                .font(.system(size: 15, weight: .bold, design: .serif))
+                                .foregroundColor(.white)
+                        }
+                        Spacer()
+                    
+                    }
+                    
+                    
                 }
                 
+                
+
+                
             }
-                Spacer().frame(height:150)
+            
+            
+            
             
         }
         
-        
-        
-        
     }
     
-}
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
+    
 }
     
 //    #Preview {
