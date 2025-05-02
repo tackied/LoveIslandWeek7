@@ -10,6 +10,9 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var isAnimating = false
+    @State  var txtValue: String = ""
+    @State  var txtValue2: String = ""
+    
     
     var body: some View {
         ZStack {
@@ -25,11 +28,34 @@ struct ContentView: View {
                     .font(.system(size: 60, weight: .bold, design: .serif))
                     .foregroundColor(.white)
                     .shadow(radius: 5)
-                
+                Text("Compatibilty Checker")
+                    .font(.system(size: 20, weight: .bold, design: .serif))
+                    .foregroundColor(.white)
                 Spacer()
                 
-
+              
+            //User inputs for names
+                TextField("What's your name?", text: $txtValue)
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .frame(maxWidth: 350)
+                
+                TextField("What's the name of your crush?", text: $txtValue2)
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .frame(maxWidth: 350)
             
+                
+
+                
+                Spacer().frame(height:120)
+                
+
+                
+                
+                
+
+            // Submit button
             ZStack {
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .fill(AngularGradient(colors: [.teal, .orange, .teal], center: .center, angle: .degrees(isAnimating ? 360 : 0)))
@@ -40,6 +66,9 @@ struct ContentView: View {
                 
                 
                 Button(action:{
+                 //   let name = self.txtValue
+                   // let crush = self.txtValue2
+                    
                     
                     
                 }) {
