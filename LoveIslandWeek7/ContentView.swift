@@ -16,23 +16,26 @@ struct ContentView: View {
     @State private var fillAmount: CGFloat = 0
     @State private var percentage: Int = 0
     @State private var progressBar = false
+    @State private var results: Int?
     
     var messages: String {
         switch percentage {
-        case 0..<25:
+        case 0..<15:
             return "\(txtValue) and \(txtValue2) sitting in a tree..."
-        case 25..<50:
+        case 15..<30:
             return "K-I-S-S-I-N-G 🤣"
-        case 50..<60:
-            return"\(txtValue2) loves me..🥰"
-        case 60..<70:
-            return"\(txtValue2) loves not...😔"
-        case 70..<80:
-            return"\(txtValue2) loves me..🥰"
-        case 80..<90:
-            return"\(txtValue2) loves not...😔"
-        default:
+        case 30..<45:
+            return"\(txtValue2) loves \(txtValue)..🥰"
+        case 45..<60:
+            return"\(txtValue2) loves \(txtValue) not...😔"
+        case 60..<75:
+            return"\(txtValue2) loves \(txtValue)..🥰"
+        case 75..<90:
+            return"\(txtValue2) loves \(txtValue) not...😔"
+        case 90..<100:
             return "The results are in!"
+        default:
+            return ""
 
         }
             
@@ -61,9 +64,6 @@ struct ContentView: View {
                 Spacer()
                 
                 if !progressBar {
-                    
-                    
-                    
                     //User inputs for names
                     TextField("What's your name?", text: $txtValue)
                         .textFieldStyle(.roundedBorder)
@@ -101,10 +101,9 @@ struct ContentView: View {
                                     percentage += 1
                                 } else {
                                     timer.invalidate()
+                                    results = Int.random(in: 0...100)
                                 }
                             }
-                            
-                            
                         }) {
                             
                             Text("ASK THE GENIE")
@@ -127,37 +126,88 @@ struct ContentView: View {
                         
                     }
                     
-                    
-                    
-                    
                 } else {
                     VStack {
                         Spacer().frame(height: 100)
-                        ZStack {
-                            Circle()
-                                .stroke(lineWidth: 15)
-                                .frame(width: 150, height: 150)
-                                .foregroundColor(.gray.opacity(0.3))
-                            Circle()
-                                .trim(from: 0, to: fillAmount)
-                                .stroke(style: StrokeStyle(lineWidth: 18, lineCap: .round, lineJoin: .round))
-                                .frame(width: 150, height: 150)
-                                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom))
-                                .rotationEffect(.degrees( -90))
+                        if percentage < 100{
+                            ZStack {
+                                Circle()
+                                    .stroke(lineWidth: 15)
+                                    .frame(width: 150, height: 150)
+                                    .foregroundColor(.gray.opacity(0.3))
+                                Circle()
+                                    .trim(from: 0, to: fillAmount)
+                                    .stroke(style: StrokeStyle(lineWidth: 18, lineCap: .round, lineJoin: .round))
+                                    .frame(width: 150, height: 150)
+                                    .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom))
+                                    .rotationEffect(.degrees( -90))
+                                
+                                Text("\(percentage)\(Text("%").font(.title3))").font(.largeTitle).monospacedDigit()
+                                    .bold()
+                                    .foregroundColor(.white)
+                                
+                            }
                             
-                            Text("\(percentage)\(Text("%").font(.title3))").font(.largeTitle).monospacedDigit()
-                                .bold()
+                            VStack {
+                                Spacer().frame(height:120)
+                                Text(messages)
+                                    .font(.system(size: 20, weight: .bold, design: .serif))
+                                    .foregroundColor(.white)
+                            }
+                            
+                        }  else if let results {
+                            Text("\(txtValue) and \(txtValue2) are")
+                                .font(.system(size: 20, weight: .bold, design: .serif))
                                 .foregroundColor(.white)
+                            Text("\(results)%")
+                                .font(.system(size: 60, weight: .bold))
+                                .monospacedDigit()
+                                .foregroundColor(.white)
+                                .shadow(radius: 5)
+                                .transition(.opacity)
+                            Text("Compatible")
+                                .font(.system(size: 20, weight: .bold, design: .serif))
+                                .foregroundColor(.white)
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .fill(AngularGradient(colors: [.teal, .orange, .teal], center: .center, angle: .degrees(isAnimating ? 360 : 0)))
+                                    .frame(width: 260, height: 60)
+                                    .blur(radius: 6)
+                                
+                                
+                                Button(action:{
+                                    percentage = 0
+                                    fillAmount = 0
+                                    progressBar = false
+                                    txtValue = ""
+                                    txtValue2 = ""
+                                }) {
+                                    
+                                    Text("PLAY AGAIN")
+                                        .bold()
+                                        .font(.title3)
+                                        .fontDesign(.serif)
+                                        .foregroundStyle(.orange)
+                                        .frame(width: 260, height: 60)
+                                        .background(Color.white, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                                .stroke(.gray.opacity(0.5), lineWidth: 1)
+                                        }
+                                }
+                            
+                            
+                            
+                            
+
+                            
+                                }
+                                
+                            }
+                            
+                            
                             
                         }
-                        
-                        
-                    }
-                    VStack {
-                        Spacer().frame(height:120)
-                        Text(messages)
-                            .font(.system(size: 20, weight: .bold, design: .serif))
-                            .foregroundColor(.white)
                     }
                     Spacer()
                     
@@ -167,14 +217,14 @@ struct ContentView: View {
             }
             
         }
+    }
                 
-                
-            }
             
             
             
             
-        }
+            
+        
         
     
     
@@ -192,19 +242,11 @@ struct ContentView: View {
     
 
     
-  //  struct ContentView_Previews: PreviewProvider {
-    //    static var previews: some View {
-      //      ContentView()
-       // }
-    //}
-    
-//}
-    
 
 
 // Get User's name(Done)
 // Get crushes name(Done)
 // Progress bar pops up and loads to 100% with animation(Done)
-// While progress bar loads small message come under progress bar such as "User & Crush sitting in a tree.." and "Crush loves me.. Crush loves me not.
-// randomly generated number stating the user and crushes compatibilty
+// While progress bar loads small message come under progress bar such as "User & Crush sitting in a tree.." and "Crush loves me.. Crush loves me not.(Done)
+// randomly generated number stating the user and crushes compatibilty(Done)
 
