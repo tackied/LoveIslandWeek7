@@ -17,6 +17,28 @@ struct ContentView: View {
     @State private var percentage: Int = 0
     @State private var progressBar = false
     
+    var messages: String {
+        switch percentage {
+        case 0..<25:
+            return "\(txtValue) and \(txtValue2) sitting in a tree..."
+        case 25..<50:
+            return "K-I-S-S-I-N-G 🤣"
+        case 50..<60:
+            return"\(txtValue2) loves me..🥰"
+        case 60..<70:
+            return"\(txtValue2) loves not...😔"
+        case 70..<80:
+            return"\(txtValue2) loves me..🥰"
+        case 80..<90:
+            return"\(txtValue2) loves not...😔"
+        default:
+            return "The results are in!"
+
+        }
+            
+            
+        }
+    
     
     
     var body: some View {
@@ -82,10 +104,6 @@ struct ContentView: View {
                                 }
                             }
                             
-                            //   let name = self.txtValue
-                            // let crush = self.txtValue2
-                            
-                            
                             
                         }) {
                             
@@ -115,39 +133,41 @@ struct ContentView: View {
                 } else {
                     VStack {
                         Spacer().frame(height: 100)
-                    ZStack {
-                        Circle()
-                            .stroke(lineWidth: 15)
-                            .frame(width: 150, height: 150)
-                            .foregroundColor(.gray.opacity(0.3))
-                        Circle()
-                            .trim(from: 0, to: fillAmount)
-                            .stroke(style: StrokeStyle(lineWidth: 18, lineCap: .round, lineJoin: .round))
-                            .frame(width: 150, height: 150)
-                            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom))
-                            .rotationEffect(.degrees( -90))
-                    
+                        ZStack {
+                            Circle()
+                                .stroke(lineWidth: 15)
+                                .frame(width: 150, height: 150)
+                                .foregroundColor(.gray.opacity(0.3))
+                            Circle()
+                                .trim(from: 0, to: fillAmount)
+                                .stroke(style: StrokeStyle(lineWidth: 18, lineCap: .round, lineJoin: .round))
+                                .frame(width: 150, height: 150)
+                                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.purple, .pink]), startPoint: .top, endPoint: .bottom))
+                                .rotationEffect(.degrees( -90))
+                            
                             Text("\(percentage)\(Text("%").font(.title3))").font(.largeTitle).monospacedDigit()
                                 .bold()
                                 .foregroundColor(.white)
-                        
                             
                         }
-                        HStack {
-                            Spacer().frame(height:300)
-                            Text("K-I-S-S-I-N-G")
-                                .font(.system(size: 15, weight: .bold, design: .serif))
-                                .foregroundColor(.white)
-                        }
-                        Spacer()
-                    
+                        
+                        
                     }
-                    
+                    VStack {
+                        Spacer().frame(height:120)
+                        Text(messages)
+                            .font(.system(size: 20, weight: .bold, design: .serif))
+                            .foregroundColor(.white)
+                    }
+                    Spacer()
                     
                 }
                 
                 
-
+            }
+            
+        }
+                
                 
             }
             
@@ -156,34 +176,35 @@ struct ContentView: View {
             
         }
         
-    }
     
     
     
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
-        }
-    }
-    
-}
-    
-//    #Preview {
-//        ContentView()
 
-// Get User's name
-// Get crushes name
-// Progress bar pops up and loads to 100% with animation
+    
+    
+    #Preview {
+        ContentView()
+    }
+    
+    
+
+    
+  //  struct ContentView_Previews: PreviewProvider {
+    //    static var previews: some View {
+      //      ContentView()
+       // }
+    //}
+    
+//}
+    
+
+
+// Get User's name(Done)
+// Get crushes name(Done)
+// Progress bar pops up and loads to 100% with animation(Done)
 // While progress bar loads small message come under progress bar such as "User & Crush sitting in a tree.." and "Crush loves me.. Crush loves me not.
 // randomly generated number stating the user and crushes compatibilty
 
